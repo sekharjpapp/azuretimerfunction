@@ -1,14 +1,12 @@
 package com.pixel;
 
 import java.time.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.azure.functions.*;
 import com.pixel.config.AppConfig;
-import com.pixel.dao.EmployeeDAO;
 import com.pixel.dao.EmployeeDaoImpl;
 import com.pixel.model.Employee;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -17,6 +15,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * Azure Functions with Timer trigger.
  */
 public class TimerTriggerJava {
+
     /**
      * This function will be invoked periodically according to the specified schedule.
      */
@@ -39,6 +38,8 @@ public class TimerTriggerJava {
             System.out.println(employees);*/
 
             fetchAllEmployeesInfo(employeeDAO);
+
+             employeeDAO.getListOfEmp();
         } catch (Exception ex) {
             context.getLogger().info("timerInfo Function failed.Error:  " + ex.getMessage());
         }
