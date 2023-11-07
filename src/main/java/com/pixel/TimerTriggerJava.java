@@ -23,16 +23,15 @@ public class TimerTriggerJava {
     public void run(
         @TimerTrigger(name = "timerInfo", schedule = "0/5 0/1 * * * *") String timerInfo,
         final ExecutionContext context) {
-        if (context != null) {
+        try {
             context.getLogger().info("Java Timer trigger function executed at: " + LocalDateTime.now());
-
             AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
             EmployeeDAO personDAO = ctx.getBean(EmployeeDAO.class);
             for (Employee p : personDAO.getAllPersons()) {
                 System.out.println(p);
             }
-        } else {
-            System.out.println("context is null");
+        } catch (Exception ex) {
+            context.getLogger().info("timerInfo Function failed.Error:  " + ex.getMessage());
         }
     }
 }
