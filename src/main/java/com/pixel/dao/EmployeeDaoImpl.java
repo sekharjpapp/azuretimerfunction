@@ -3,6 +3,8 @@ package com.pixel.dao;
 import com.pixel.model.Employee;
 import com.pixel.rowmapper.EmployeeRowMapper;
 import com.pixel.util.EmployeeQueryConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +19,7 @@ import java.util.List;
 @Component
 public class EmployeeDaoImpl implements EmployeeDAO{
 
+    private static final Logger LOG =   LoggerFactory.getLogger(EmployeeDaoImpl.class);
     JdbcTemplate jdbcTemplate;
     NamedParameterJdbcTemplate template;
 
@@ -35,7 +38,7 @@ public class EmployeeDaoImpl implements EmployeeDAO{
 
         SqlParameterSource param = new MapSqlParameterSource("name", "Bob");
         Employee result = template.queryForObject(sql, param, BeanPropertyRowMapper.newInstance(Employee.class));
-
+        LOG.info("result " + result);
         System.out.println(result);
     }
 }
