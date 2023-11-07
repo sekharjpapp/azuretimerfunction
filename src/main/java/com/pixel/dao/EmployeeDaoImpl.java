@@ -3,6 +3,7 @@ package com.pixel.dao;
 import com.pixel.model.Employee;
 import com.pixel.rowmapper.EmployeeRowMapper;
 import com.pixel.util.EmployeeQueryConstants;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,12 @@ import javax.sql.DataSource;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class EmployeeDaoImpl implements EmployeeDAO{
-
     private static final Logger LOG =   LoggerFactory.getLogger(EmployeeDaoImpl.class);
-    JdbcTemplate jdbcTemplate;
-    NamedParameterJdbcTemplate template;
+
+    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate template;
 
     @Autowired
     public EmployeeDaoImpl(DataSource dataSource) {
