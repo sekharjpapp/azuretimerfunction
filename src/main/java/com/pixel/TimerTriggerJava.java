@@ -3,6 +3,7 @@ package com.pixel;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.azure.functions.*;
@@ -27,9 +28,14 @@ public class TimerTriggerJava {
             context.getLogger().info("Java Timer trigger function executed at: " + LocalDateTime.now());
             AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
             EmployeeDAO personDAO = ctx.getBean(EmployeeDAO.class);
-            for (Employee p : personDAO.getAllPersons()) {
+
+            /*for (Employee p : personDAO.getAllPersons()) {
                 System.out.println(p);
-            }
+            }*/
+            //personDAO.getAllPersons().forEach(System.out::println);
+            List<Employee> employees = personDAO.getAllPersons().stream()
+                    .collect(Collectors.toList());
+            System.out.println(employees);
         } catch (Exception ex) {
             context.getLogger().info("timerInfo Function failed.Error:  " + ex.getMessage());
         }
