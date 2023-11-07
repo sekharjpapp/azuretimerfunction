@@ -24,20 +24,28 @@ public class TimerTriggerJava {
     public void run(
         @TimerTrigger(name = "timerInfo", schedule = "0/5 0/1 * * * *") String timerInfo,
         final ExecutionContext context) {
+        AnnotationConfigApplicationContext ctx = null;
         try {
             context.getLogger().info("Java Timer trigger function executed at: " + LocalDateTime.now());
-            AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-            EmployeeDAO personDAO = ctx.getBean(EmployeeDAO.class);
+            ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+            EmployeeDaoImpl employeeDAO = ctx.getBean(EmployeeDaoImpl.class);
 
             /*for (Employee p : personDAO.getAllPersons()) {
                 System.out.println(p);
             }*/
             //personDAO.getAllPersons().forEach(System.out::println);
-            List<Employee> employees = personDAO.getAllPersons().stream()
+            /*List<Employee> employees = personDAO.getAllPersons().stream()
                     .collect(Collectors.toList());
-            System.out.println(employees);
+            System.out.println(employees);*/
+
+            fetchAllEmployeesInfo(employeeDAO);
         } catch (Exception ex) {
             context.getLogger().info("timerInfo Function failed.Error:  " + ex.getMessage());
         }
+    }
+    private static void fetchAllEmployeesInfo(EmployeeDaoImpl employeeService) {
+        List<Employee> employees = employeeService.getAllPersons().stream().collect(Collectors.toList());
+        System.out.println(employees);
+        //employeeService.getAllPersons().forEach(System.out::println);
     }
 }
